@@ -8,10 +8,10 @@ fun main() {
     var input = object {}::class.java.getResource("/input").readText()
 
     var caloriesPerElves = input
-            .split("\r\n\r\n")
+            .split("\n\n")
             .filter { it.isNotBlank() }
             .map {
-                it.split("\r\n")
+                it.split("\n")
                         .filter { it.isNotBlank() }
                         .sumOf { calorie ->
                             println(calorie)
