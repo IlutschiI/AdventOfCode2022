@@ -15,7 +15,13 @@ fun main() {
             0 to 3
     )
 
-    var a = input
+    var winningShapes = mapOf(
+            'A' to 'C',
+            'B' to 'A',
+            'C' to 'B'
+    )
+
+    var part1 = input
             .split("\n")
             .asSequence()
             .map { match ->     // convert input to chars
@@ -36,5 +42,44 @@ fun main() {
             }
             .sum()
 
-    println(a)
+    var part2 = input
+            .split("\n")
+            .asSequence()
+            .map { match ->     // convert input to chars
+                match
+                        .split(" ")
+                        .map { choice ->
+                            choice.first()
+                        }
+            }
+            .map {// normalize second field of input (X->lose, Y->draw, Z->win)
+                var choice = when(it[1]){
+                    'X' -> {
+                        var keyToLose = winningShapes[it[0]]!!
+                        keyToLose
+                    }
+                    'Y' -> {
+                        var keyToDraw = it[0]
+                        keyToDraw
+                    }
+                    'Z' -> {
+                        var keyToWin = winningShapes.entries.first { entry ->
+                            entry.value==it[0]
+                        }.key
+                        keyToWin
+                    }
+                    else -> {' '}
+                }
+                it[0] to choice
+            }
+            .map {// calculate round win and points for chosen shape
+                it.second - it.first to (it.second - 64).code
+            }
+            .map {// get points for round win and add points for shape
+                winningTable[it.first]!!.plus(it.second)
+            }
+            .sum()
+
+    println("part1: $part1")
+    println("part2: $part2")
 }
