@@ -15,8 +15,6 @@ fun main() {
                 it.substring(0, it.length / 2) to it.substring(it.length / 2)
             }
 
-    println(rucksacks)
-
     var priority = rucksacks.map { // find shared items
         it.first.filter { c: Char ->
             it.second.contains(c)
@@ -24,18 +22,41 @@ fun main() {
     }
             .map {
                 it.first()
+            }.sumOf {
+                var additionalValue = if (it.isUpperCase()) 27 else 1
+                var a = (it.lowercaseChar().code - 97) + additionalValue
+                // println("$it ($a)")
+                a
+            }
+
+
+    var badgePriority = rucksacks
+            .map { it.first+it.second }
+            .chunked(3)
+            .map {
+                it.first().first { c: Char ->
+                    it.all {r ->
+                        r.contains(c)
+                    }
+                } to it
             }
             .map {
                 println(it)
                 it
-            }
-            .map {
+            }.map {
+                it.first to (it.first.code - 65).absoluteValue
+            }.map {
+                println(it)
+                it.first
+            }.sumOf {
                 var additionalValue = if (it.isUpperCase()) 27 else 1
-                var a = (it.lowercaseChar().code-97) + additionalValue
-                println("$it ($a)")
+                var a = (it.lowercaseChar().code - 97) + additionalValue
+                // println("$it ($a)")
                 a
             }
-            .sum()
+
+
 
     println(priority)
+    println(badgePriority)
 }
