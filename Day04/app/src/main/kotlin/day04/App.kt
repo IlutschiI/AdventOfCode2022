@@ -17,12 +17,18 @@ fun main() {
             id.toInt()
         }
         first[0]..first[1] to second[0]..second[1]
-    }.filter {
+    }
+
+    var part1 = groups.filter {
         (it.first.contains(it.second.first) && it.first.contains(it.second.last))
                 || (it.second.contains(it.first.first) && it.second.contains(it.first.last))
     }
 
+    var part2 = groups.filter {
+        (it.first.contains(it.second.first) || it.first.contains(it.second.last))
+                || (it.second.contains(it.first.first) || it.second.contains(it.first.last))
+    }
 
-    println(groups)
-    println(groups.count())
+    println(part1.count())
+    println(part2.count())
 }
